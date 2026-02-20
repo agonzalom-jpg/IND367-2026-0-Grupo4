@@ -42,4 +42,4 @@ export interface ReportData {
   signature: string | null;
 }
 
-export type Screen = 'HOME' | 'ACTIVITY' | 'EVIDENCE' | 'SUMMARY' | 'DASHBOARD';
+export type Screen = 'LOGIN' | 'HOME' | 'ACTIVITY' | 'EVIDENCE' | 'SUMMARY' | 'DASHBOARD';

@@ -1,6 +1,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { Screen, ReportData, Task, TaskStatus } from './types';
+import { LoginView } from './views/LoginView';
 import { HomeView } from './views/HomeView';
 import { ActivityView } from './views/ActivityView';
 import { EvidenceView } from './views/EvidenceView';
@@ -10,7 +11,7 @@ import { Navigation } from './components/Navigation';
 import { SECTORS, LEVELS, INITIAL_TASKS, SUPERVISORS } from './constants';
 
 const App: React.FC = () => {
-  const [currentScreen, setCurrentScreen] = useState<Screen>('HOME');
+  const [currentScreen, setCurrentScreen] = useState<Screen>('LOGIN');
   
   // Dynamic lists for selection
   const [availableProjects, setAvailableProjects] = useState(['Edificio Miraflores', 'Torre San Isidro', 'Residencial El Sol']);
@@ -61,6 +62,8 @@ const App: React.FC = () => {
 
   const renderScreen = () => {
     switch (currentScreen) {
+      case 'LOGIN':
+        return <LoginView onLogin={() => setCurrentScreen('HOME')} />;
       case 'HOME':
         return (
           <HomeView 
@@ -111,21 +114,7 @@ const App: React.FC = () => {
           />
         );
       default:
-        return (
-          <HomeView 
-            data={reportData} 
-            onUpdate={updateReportData} 
-            onNext={() => setCurrentScreen('ACTIVITY')} 
-            projects={availableProjects} 
-            sectors={availableSectors} 
-            levels={availableLevels} 
-            tasks={availableTasks}
-            supervisors={availableSupervisors}
-            onAddSector={addSector} 
-            onAddLevel={addLevel} 
-            onAddTask={addTask}
-          />
-        );
+        return <LoginView onLogin={() => setCurrentScreen('HOME')} />;
     }
   };
 
@@ -134,10 +123,12 @@ const App: React.FC = () => {
       <div className="flex-1 overflow-y-auto pb-20">
         {renderScreen()}
       </div>
-      <Navigation 
-        currentScreen={currentScreen} 
-        onNavigate={(screen) => setCurrentScreen(screen)} 
-      />
+      {currentScreen !== 'LOGIN' && (
+        <Navigation 
+          currentScreen={currentScreen} 
+          onNavigate={(screen) => setCurrentScreen(screen)} 
+        />
+      )}
     </div>
   );
 };
