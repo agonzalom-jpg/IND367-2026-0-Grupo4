@@ -1,0 +1,8 @@
+{
+  "name": "Followconstruction",
+  "description": "A professional construction supervision app for tracking daily progress, managing resources, and validating quality with photo evidence and digital signatures.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ]
+}
