@@ -10,6 +10,7 @@ export interface Task {
   name: string;
   category: string;
   status: TaskStatus;
+  supervisor?: string;
 }
 
 export interface Evidence {

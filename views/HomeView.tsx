@@ -11,6 +11,7 @@ interface HomeViewProps {
   sectors: { id: string, name: string, icon: string }[];
   levels: string[];
   tasks: Task[];
+  supervisors: string[];
   onAddSector: (name: string, icon: string) => void;
   onAddLevel: (level: string) => void;
   onAddTask: (task: Omit<Task, 'id'>) => void;
@@ -24,6 +25,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   sectors, 
   levels,
   tasks,
+  supervisors,
   onAddSector,
   onAddLevel,
   onAddTask
@@ -41,6 +43,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   const [newTaskName, setNewTaskName] = useState('');
   const [newTaskCategory, setNewTaskCategory] = useState('ESTRUCTURA');
   const [newTaskStatus, setNewTaskStatus] = useState<TaskStatus>(TaskStatus.PENDIENTE);
+  const [newTaskSupervisor, setNewTaskSupervisor] = useState(supervisors[0] || '');
 
   const handleAddSector = () => {
     if (newSectorName.trim()) {
@@ -65,9 +68,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
       onAddTask({
         name: newTaskName,
         category: newTaskCategory,
-        status: newTaskStatus
+        status: newTaskStatus,
+        supervisor: newTaskSupervisor
       });
       setNewTaskName('');
+      setNewTaskSupervisor(supervisors[0] || '');
       setShowAddTask(false);
     }
   };
@@ -197,7 +202,11 @@ export const HomeView: React.FC<HomeViewProps> = ({
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-800">{task.name}</h4>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{task.category}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{task.category}</p>
+                    <span className="text-gray-300 text-[10px]">•</span>
+                    <p className="text-[10px] text-blue-600 font-bold uppercase tracking-widest">{task.supervisor || 'Sin asignar'}</p>
+                  </div>
                 </div>
               </div>
               <span className={`px-2 py-1 rounded text-[10px] font-bold ${
@@ -336,6 +345,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
                   <option value="ACABADOS">ACABADOS</option>
                   <option value="ELECTRICAS">INST. ELÉCTRICAS</option>
                   <option value="SANITARIAS">INST. SANITARIAS</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-2">ENCARGADO / SUPERVISOR</label>
+                <select 
+                  value={newTaskSupervisor}
+                  onChange={(e) => setNewTaskSupervisor(e.target.value)}
+                  className="w-full p-4 bg-slate-50 rounded-2xl border border-gray-100 focus:ring-2 focus:ring-blue-500 outline-none font-medium appearance-none"
+                >
+                  {supervisors.map(s => (
+                    <option key={s} value={s}>{s}</option>
+                  ))}
                 </select>
               </div>
 

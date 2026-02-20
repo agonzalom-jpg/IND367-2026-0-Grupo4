@@ -7,7 +7,7 @@ import { EvidenceView } from './views/EvidenceView';
 import { SummaryView } from './views/SummaryView';
 import { DashboardView } from './views/DashboardView';
 import { Navigation } from './components/Navigation';
-import { SECTORS, LEVELS, INITIAL_TASKS } from './constants';
+import { SECTORS, LEVELS, INITIAL_TASKS, SUPERVISORS } from './constants';
 
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('HOME');
@@ -17,6 +17,7 @@ const App: React.FC = () => {
   const [availableSectors, setAvailableSectors] = useState(SECTORS);
   const [availableLevels, setAvailableLevels] = useState(LEVELS);
   const [availableTasks, setAvailableTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [availableSupervisors, setAvailableSupervisors] = useState(SUPERVISORS);
 
   const [reportData, setReportData] = useState<ReportData>({
     project: 'Edificio Miraflores',
@@ -70,6 +71,7 @@ const App: React.FC = () => {
             sectors={availableSectors}
             levels={availableLevels}
             tasks={availableTasks}
+            supervisors={availableSupervisors}
             onAddSector={addSector}
             onAddLevel={addLevel}
             onAddTask={addTask}
@@ -118,6 +120,7 @@ const App: React.FC = () => {
             sectors={availableSectors} 
             levels={availableLevels} 
             tasks={availableTasks}
+            supervisors={availableSupervisors}
             onAddSector={addSector} 
             onAddLevel={addLevel} 
             onAddTask={addTask}
