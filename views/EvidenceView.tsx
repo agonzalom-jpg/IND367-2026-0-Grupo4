@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { ChevronLeft, Info, Camera, X, MapPin, Clock, CheckCircle, ArrowRight } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { ChevronLeft, Info, Camera, X, MapPin, Clock, CheckCircle, ArrowRight, Upload } from 'lucide-react';
 import { ReportData, Evidence } from '../types';
 
 interface EvidenceViewProps {
@@ -12,17 +12,35 @@ interface EvidenceViewProps {
 
 export const EvidenceView: React.FC<EvidenceViewProps> = ({ data, onUpdate, onNext, onBack }) => {
   const [isCapturing, setIsCapturing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const addEvidence = () => {
+  const addEvidence = (imageUrl: string) => {
     const newEvidence: Evidence = {
       id: Date.now().toString(),
-      imageUrl: `https://picsum.photos/seed/${Date.now()}/400/300`,
+      imageUrl: imageUrl,
       description: '',
-      timestamp: '24 May 2024, 10:12 AM',
-      coords: '19.4327° N, 99.1335° W',
+      timestamp: new Date().toLocaleString(),
+      coords: '19.4327° N, 99.1335° W', // Mock coords for now
       isGeotagged: true,
     };
     onUpdate({ evidences: [...data.evidences, newEvidence] });
+  };
+
+  const handleCapture = () => {
+    // Simulate camera capture with a random image
+    addEvidence(`https://picsum.photos/seed/${Date.now()}/400/300`);
+  };
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      addEvidence(imageUrl);
+    }
   };
 
   const removeEvidence = (id: string) => {
@@ -54,20 +72,40 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({ data, onUpdate, onNe
         <div className="w-2 h-2 rounded-full bg-slate-200"></div>
       </div>
 
-      <div 
-        onClick={addEvidence}
-        className="border-2 border-dashed border-blue-200 rounded-[40px] p-10 flex flex-col items-center justify-center gap-4 bg-blue-50/30 mb-8 cursor-pointer active:scale-95 transition-transform"
-      >
+      <div className="border-2 border-dashed border-blue-200 rounded-[40px] p-10 flex flex-col items-center justify-center gap-4 bg-blue-50/30 mb-8">
         <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-xl shadow-blue-100 text-white">
           <Camera size={36} />
         </div>
-        <div className="text-center">
+        <div className="text-center mb-2">
           <h3 className="text-xl font-bold text-gray-800">Tomar o Subir Foto</h3>
-          <p className="text-sm text-gray-400 font-medium mt-1">Toca para capturar evidencia del avance</p>
+          <p className="text-sm text-gray-400 font-medium mt-1">Captura evidencia del avance</p>
         </div>
-        <button className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200">
-          Capturar
-        </button>
+        
+        <div className="flex gap-4 w-full justify-center">
+          <button 
+            onClick={handleCapture}
+            className="bg-blue-600 text-white px-6 py-3 rounded-2xl font-bold shadow-lg shadow-blue-200 active:scale-95 transition-transform flex items-center gap-2"
+          >
+            <Camera size={20} />
+            Capturar
+          </button>
+          
+          <input 
+            type="file" 
+            ref={fileInputRef} 
+            onChange={handleFileChange} 
+            className="hidden" 
+            accept="image/*"
+          />
+          
+          <button 
+            onClick={handleUploadClick}
+            className="bg-white text-blue-600 border-2 border-blue-100 px-6 py-3 rounded-2xl font-bold shadow-sm active:scale-95 transition-transform flex items-center gap-2"
+          >
+            <Upload size={20} />
+            Subir
+          </button>
+        </div>
       </div>
 
       <div className="flex justify-between items-center mb-6">
