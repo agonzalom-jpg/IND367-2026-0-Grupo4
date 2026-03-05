@@ -16,25 +16,25 @@ export const Navigation: React.FC<NavigationProps> = ({ currentScreen, onNavigat
         className={`flex flex-col items-center gap-1 ${currentScreen === 'HOME' ? 'text-blue-600' : 'text-gray-400'}`}
       >
         <Home size={24} />
-        <span className="text-[10px] font-medium">INICIO</span>
+        <span className="text-[10px] font-bold">INICIO</span>
       </button>
       <button 
         onClick={() => onNavigate('SUMMARY')}
         className={`flex flex-col items-center gap-1 ${currentScreen === 'SUMMARY' ? 'text-blue-600' : 'text-gray-400'}`}
       >
         <FileText size={24} />
-        <span className="text-[10px] font-medium">REPORTES</span>
+        <span className="text-[10px] font-bold">REPORTES</span>
       </button>
       <button className="flex flex-col items-center gap-1 text-gray-400">
         <Map size={24} />
-        <span className="text-[10px] font-medium">PLANOS</span>
+        <span className="text-[10px] font-bold">PLANOS</span>
       </button>
       <button 
         onClick={() => onNavigate('DASHBOARD')}
         className={`flex flex-col items-center gap-1 ${currentScreen === 'DASHBOARD' ? 'text-blue-600' : 'text-gray-400'}`}
       >
         <Settings size={24} />
-        <span className="text-[10px] font-medium">AJUSTES</span>
+        <span className="text-[10px] font-bold">AJUSTES</span>
       </button>
     </div>
   );

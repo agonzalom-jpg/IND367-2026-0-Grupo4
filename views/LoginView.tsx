@@ -1,20 +1,31 @@
 
 import React, { useState } from 'react';
-import { Hammer, Mail, Lock, Eye, EyeOff, Fingerprint, Building2, LogIn } from 'lucide-react';
+import { Hammer, Mail, Lock, Eye, EyeOff, Fingerprint, Building2, LogIn, Check } from 'lucide-react';
+import { AppUser } from '../types';
 
 interface LoginViewProps {
-  onLogin: () => void;
+  onLogin: (user: AppUser) => void;
+  onRegister: () => void;
+  registeredUsers: AppUser[];
+  successMessage?: string;
 }
 
-export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
+export const LoginView: React.FC<LoginViewProps> = ({ onLogin, onRegister, registeredUsers, successMessage }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real app, we would validate credentials here
-    onLogin();
+    
+    const user = registeredUsers.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+      onLogin(user);
+    } else {
+      setError('Credenciales incorrectas. Por favor, regístrate si no tienes cuenta.');
+    }
   };
 
   return (
@@ -44,6 +55,17 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
         <p className="text-sm text-slate-400 font-medium">Ingresa tus credenciales para continuar</p>
       </div>
 
+      {successMessage && !error && (
+        <div className="w-full p-4 mb-6 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center gap-3 animate-in slide-in-from-top duration-300">
+          <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600">
+            <Check size={16} />
+          </div>
+          <p className="text-xs font-bold text-emerald-700">{successMessage}</p>
+        </div>
+      )}
+
+      {error && <p className="text-red-500 text-xs font-bold mb-4 text-center">{error}</p>}
+      
       {/* Login Form */}
       <form onSubmit={handleSubmit} className="w-full space-y-5">
         <div className="space-y-2">
@@ -91,8 +113,11 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
           </div>
         </div>
 
-        <div className="flex justify-end">
-          <button type="button" className="text-xs font-bold text-blue-600 hover:underline">
+        <div className="flex justify-between items-center px-1">
+          <button type="button" onClick={onRegister} className="text-xs font-bold text-blue-600 hover:underline">
+            Crear Cuenta
+          </button>
+          <button type="button" onClick={onRegister} className="text-xs font-bold text-slate-400 hover:underline">
             ¿Olvidaste tu contraseña?
           </button>
         </div>
@@ -131,7 +156,7 @@ export const LoginView: React.FC<LoginViewProps> = ({ onLogin }) => {
       {/* Footer */}
       <div className="mt-auto text-center">
         <p className="text-xs text-slate-400 font-medium">
-          ¿No tienes una cuenta? <button className="text-blue-600 font-bold hover:underline">Contacta a soporte</button>
+          ¿No tienes una cuenta? <button type="button" onClick={onRegister} className="text-blue-600 font-bold hover:underline">Contacta a soporte</button>
         </p>
       </div>
     </div>

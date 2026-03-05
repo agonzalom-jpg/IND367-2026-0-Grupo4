@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { ChevronDown, Bell, Plus, Hammer, PlayCircle, X, Check } from 'lucide-react';
-import { ReportData, Task, TaskStatus } from '../types';
+import { ReportData, Task, TaskStatus, AppUser } from '../types';
 
 interface HomeViewProps {
   data: ReportData;
@@ -15,6 +15,7 @@ interface HomeViewProps {
   onAddSector: (name: string, icon: string) => void;
   onAddLevel: (level: string) => void;
   onAddTask: (task: Omit<Task, 'id'>) => void;
+  currentUser: AppUser | null;
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({ 
@@ -28,7 +29,8 @@ export const HomeView: React.FC<HomeViewProps> = ({
   supervisors,
   onAddSector,
   onAddLevel,
-  onAddTask
+  onAddTask,
+  currentUser
 }) => {
   const [showProjectSelector, setShowProjectSelector] = useState(false);
   const [showAddSector, setShowAddSector] = useState(false);
@@ -84,7 +86,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <img src="https://picsum.photos/seed/juan/100/100" className="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt="Profile" />
           <div>
             <p className="text-sm text-gray-500">Buen día,</p>
-            <h1 className="text-lg font-bold">Ing. Juan Pérez</h1>
+            <h1 className="text-lg font-bold">{currentUser?.fullName || 'Ingeniero'}</h1>
           </div>
         </div>
         <button className="p-2 bg-white rounded-full shadow-sm relative">

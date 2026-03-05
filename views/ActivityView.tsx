@@ -27,9 +27,9 @@ export const ActivityView: React.FC<ActivityViewProps> = ({ data, onUpdate, onNe
       <div className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-6 flex items-center gap-4">
         <img src="https://picsum.photos/seed/const/100/100" className="w-16 h-16 rounded-2xl object-cover" alt="Task" />
         <div>
-          <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Tarea Actual</p>
-          <h3 className="text-lg font-bold text-gray-800">{data.selectedTask?.name || 'Excavación de Zapatas'}</h3>
-          <p className="text-xs text-gray-400 font-medium">{data.sector} - {data.level}</p>
+          <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Tarea Seleccionada</p>
+          <h3 className="text-lg font-bold text-gray-800">{data.selectedTask?.name || 'Sin tarea seleccionada'}</h3>
+          <p className="text-xs text-gray-400 font-medium">{data.sector || 'Sector no definido'} - {data.level || 'Nivel no definido'}</p>
         </div>
       </div>
 

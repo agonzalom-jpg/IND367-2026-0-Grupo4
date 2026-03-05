@@ -42,4 +42,12 @@ export interface ReportData {
   signature: string | null;
 }
 
-export type Screen = 'LOGIN' | 'HOME' | 'ACTIVITY' | 'EVIDENCE' | 'SUMMARY' | 'DASHBOARD';
+export interface AppUser {
+  fullName: string;
+  email: string;
+  password: string;
+  professionalId: string;
+  company: string;
+}
+
+export type Screen = 'LOGIN' | 'REGISTER' | 'HOME' | 'ACTIVITY' | 'EVIDENCE' | 'SUMMARY' | 'REPORT_SUCCESS' | 'DASHBOARD';
